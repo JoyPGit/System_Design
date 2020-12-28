@@ -1,7 +1,9 @@
-Design Patterns - Strategy Pattern
+/**
+ Design Patterns - Strategy Pattern 
+(overriding methods in diff classes; polymorphism -> interface reference for class)
 
 INTERFACE->CONTEXT CLASS->RUNNER CALLS CONTEXT
-same method does diff things based on the class coalled
+same method does diff things based on the class called
 
 In Strategy pattern, a class behavior or its algorithm can be changed at 
 run time. This type of design pattern comes under behavior pattern.
@@ -25,37 +27,41 @@ Step 1
 Create an interface.
 
 Strategy.java
-
+*/
 // INTERFACE
-public interface Strategy {
+
+
+interface Strategy {
    public int doOperation(int num1, int num2);
 }
 
 
 
-Step 2
-Create concrete classes implementing the same interface.
+// Step 2
+// Create concrete classes implementing the same interface.
 
 // CREATE CONCRETE CLASSES
-OperationAdd.java
 
-public class OperationAdd implements Strategy{
+// OperationAdd.java
+class OperationAdd implements Strategy{
    @Override
    public int doOperation(int num1, int num2) {
       return num1 + num2;
    }
 }
-OperationSubstract.java
 
-public class OperationSubstract implements Strategy{
+
+// OperationSubstract.java
+class OperationSubstract implements Strategy{
    @Override
    public int doOperation(int num1, int num2) {
       return num1 - num2;
    }
 }
-OperationMultiply.java
 
-public class OperationMultiply implements Strategy{
+
+// OperationMultiply.java
+class OperationMultiply implements Strategy{
    @Override
    public int doOperation(int num1, int num2) {
       return num1 * num2;
@@ -63,13 +69,14 @@ public class OperationMultiply implements Strategy{
 }
 
 
-Step 3
-Create Context Class.
+// Step 3
+// Create Context Class.
 // CONTEXT
 
-Context.java
+// Context.java
 
-public class Context {
+class Context {
+   // interface reference -> Polymorphism
    private Strategy strategy;
 
    public Context(Strategy strategy){
@@ -81,13 +88,15 @@ public class Context {
    }
 }
 
-Step 4
-Use the Context to see change in behaviour when it changes its Strategy.
+// Step 4
+// Use the Context to see change in behaviour when it changes its Strategy.
 
-StrategyPatternDemo.java
+// StrategyPatternDemo.java
 
-public class StrategyPatternDemo {
+public class StrategyPattern{
    public static void main(String[] args) {
+      
+      // add is passed as param to context and a common method is called on the context
       Context context = new Context(new OperationAdd());		
       System.out.println("10 + 5 = " + context.executeStrategy(10, 5));
 
@@ -98,9 +107,15 @@ public class StrategyPatternDemo {
       System.out.println("10 * 5 = " + context.executeStrategy(10, 5));
    }
 }
-Step 5
-Verify the output.
 
-10 + 5 = 15
-10 - 5 = 5
-10 * 5 = 50
+// Step 5
+// Verify the output.
+
+// 10 + 5 = 15
+// 10 - 5 = 5
+// 10 * 5 = 50
+
+
+// singleton, builder, factory(crude)<->facade <-> strategy, observer (Angular)
+
+

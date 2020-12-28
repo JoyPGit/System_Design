@@ -4,6 +4,19 @@ import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+/** 
+ * LRU
+ * IF NOT PRESENT, ADD AT FRONT
+ * IF PRESENT, BRING TO FRONT
+ * 
+ * also update head and currLast in put
+ * 1 a page class, like node of linked list
+ * 2 a linked list with head and last;
+ * 3 a counter to check 
+ * if size < capacity, add a new page at end
+ * else remove last and add new at front
+*/
+
 class LRUCache{
 
     class Page{
