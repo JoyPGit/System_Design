@@ -7,7 +7,7 @@ public class Facade_pattern {
      * A facade class ShapeMaker is defined as a next step.
      * 
      * FACADE PATTERN USES A PARENT CLASS WHICH HOLDS INSTANCES OF ALL SUBCLASSES
-     * AND EXPOSES METHODS WHILE HANDLING MAPPING INTERNALLY
+     * AND EXPOSES METHODS SPECIFIC TO INDIVIDUAL CLASSES WHILE HANDLING MAPPING INTERNALLY
      * 
      * 
     */
@@ -98,7 +98,7 @@ whereas Facade can be used to provide abstraction to all kinds of operations, no
 here we are going one level up in terms of abstraction, 
 in factory shape classes were returned and draw was called on each
 
-here ea ch method is a functionality draw is called on the runner instance, it determines which class to instantiate based on the 
-param and calls the method too.
+here ea ch method is a functionality draw is called on the runner instance, 
+it determines which class to instantiate based on the param and calls the method too.
 
 */

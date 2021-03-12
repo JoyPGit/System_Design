@@ -2,6 +2,8 @@ System design Dropbox or Google drive.
 Narendra L
 Dec 6, 2018·5 min read
 
+https://abdullin.com/post/handling-concurrency-in-cloud-views/
+
 
 I am pretty sure you have used either Google Drive or Dropbox!!
 Have you ever wondered how these services works internally to provide 

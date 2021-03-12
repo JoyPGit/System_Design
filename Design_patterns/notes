@@ -44,12 +44,23 @@ Facade pattern -> all subclasses in a runner, Polymorphism using runner class
         shapeMaker.drawSquare();		
    }
 
+Factory -> class creation on the basis of argument, single method
+Facade -> interface, specific methods of classes called; like drawCircle(), drawSquare
+Strategy pattern -> interface polymorphism, single method, like method overriding
 
-Facade -> facade class all methods and subclass instances
-Strategy pattern -> methods
+IMP : 
+factory(class, single method) + facade(interface, specific) = Strategy (class, interface, single method)
 
-Suppose i have to implement various payment gateways like phonepe, amazonpay, googlepay phonepe etc
-i will use Facade pattern, a payemnt class that will call respective apis
+Strategy is like method overriding, same method but called on different classes
+I will call a single method doOperation and pass parameters of class Add, Subtract and Multiplication.
+
+Suppose i have to implement various payment gateways like phonepe, amazonpay, googlepay etc
+i will use Facade pattern, a payment class that will call respective apis
 
 but i will also implement Strategy pattern where for diff modes of payment
 i will make specific methods for card or upi or netbanking payments.
+
+
+If i use facade only then i will call payWithHDFCCard and pass HDFC and othe parameters
+but with Strategy, i will call only payWithCard and pass HDFC and pass params.
+No specific method for each bank.

@@ -1,6 +1,7 @@
 public class Payment {
     
-    
+    // used facade and strategy
+    // facade -> different     
 }
 
 interface Card{
@@ -92,11 +93,16 @@ class FacadeDemo{
 }
 
 
-// factory -> diff classes
-// facade -> single class runner
-// strategy -> extension if facade, interface - strategy; classes implement
-// here multiple strategies, kind of extension of strategy pattern
-
 
 // when working is hidden, facade pattern
 // when multiple interfaces -> strategy 
+
+/** 
+ * If i use facade only then i will call payWithHDFCCard and pass HDFC and othe parameters
+ * but with Strategy, i will call only payWithCard and pass HDFC and pass params.
+ * No specific method for each bank.
+ * 
+ * 
+ * factory(class, single method) + facade(interface, specific) = Strategy (class, interface, single method)
+ * 
+*/

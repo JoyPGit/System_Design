@@ -1,7 +1,7 @@
 Distributed system metadata
 Consistent hashing
 
-Distributed Hashing
+Distributed Caching
 A typical use case for this is the implementation of in-memory caches, 
 such as Memcached.
 

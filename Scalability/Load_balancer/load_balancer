@@ -11,7 +11,7 @@ Server Addition/Removal/Failure
 Consistent Hashing
 
 
-Layer 4 Load Balancing and NAT
+Layer 4 Load Balancing and NAT (Network Address Translation)
 
 Today the term “Layer 4 load balancing” most commonly refers to a 
 deployment where the load balancer’s IP address is the one advertised to 
@@ -23,6 +23,7 @@ When the Layer 4 load balancer receives a request and makes the load
 balancing decision, it also performs Network Address Translation (NAT) 
 on the request packet, changing the recorded destination IP address from 
 its own to that of the content server it has chosen on the internal network. 
+
 Similarly, before forwarding server responses to clients, the load balancer 
 changes the source address recorded in the packet header from the 
 server’s IP address to its own. 

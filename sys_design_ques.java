@@ -37,7 +37,9 @@ public class sys_design_ques {
     // https://www.geeksforgeeks.org/design-a-data-structure-that-supports-
     // insert-delete-search-and-getrandom-in-constant-time/
 
+    // https://stackoverflow.com/questions/4199694/data-structure-for-text-editor
 
+    
     // https://leetcode.com/problems/design-circular-deque/
 
     // https://stackoverflow.com/questions/35196745/
