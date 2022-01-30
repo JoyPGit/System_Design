@@ -1,0 +1,60 @@
+WhatsApp
+
+FR
+1 Chat one on one, group
+2 Call one on one, group (maybe v2)
+3 See delivery status
+4 Add/remove/block contacts
+
+NFR
+LACS
+read receipts
+
+
+how to communicate?
+
+u1 -> api call -> websocket handler (fetches socket of u2)
+               -> sends to u2
+               -> stores in msg table
+               -> sends notif to u1 (sent status)
+
+
+u2  -> if online -> msg is delivered -> service sends notif to u1 (delivered)
+    -> pulls (when comes online) -> service pushes all undelivered msgs
+    -> for read (we need intelliegent client)
+
+    this client can
+    -> poll for messages when online
+    -> send notif about delivered and read
+    -> fetch profile pics and last seen status in the background and store in local storage
+    -> 
+
+
+Schema design
+
+messages
+msg id, sender id, receiver id, timestamp, type, value
+
+user 
+user id, name, pic (url), nickname
+
+last seen (mongo, redis)
+userid, timestamp
+
+
+there are two types of systems we could be building here. Something like Facebook Messenger, that stores all messages permanently, or something like WhatsApp that stores the messages only until they are undelivered.
+         
+
+Errors -> handle using a dead letter queue
+       -> run a cron job
+       -> send notifs/alerts 
+
+
+in case of a high profile political or sports event, a lot of people might end up sharing the same image and we might end up with multiple copies of the same image. To avoid this, before uploading an image to asset service, U3 will send a hash of the image and if the hash is already there in the asset service, the content will not be uploaded again, but the id against the same image/content will be sent to U2. I know, you must be thinking about multiple collisions? To deal with this, instead of sending just 1 hash, we will send across multiple hashes calculated via multiple algorithms. If all the hashes match, there is a fairly high chance that it is the same image and doesn’t have to be uploaded again.
+
+
+Group chats
+
+What we discussed until now was how a personal chat works on a system like WhatsApp. But what about group chats? Let’s say U1 wants to send a message to G1. Now, groups will behave a little differently from users. Web socket handlers won’t keep track of groups, it just tracks active users. So when U1 wants to send a message to G1, WSH1 gets in touch with Message service, that U1 wants to send a message to G1, and it gets stored in Cassandra as M3. Message service will now communicate with Kafka. M3 gets saved in Kafka with an instruction that it has to be sent to G1. Now Kafka will interact with something known as Group Message Handler. The group message handler listens to Kafka and sends out all group messages. There is something called Group Service which keeps track of all the members in all groups. Group message handler talks to Group service to find out all the users in G1 and follows the same process as a web socket handler and delivers the message to all users individually.
+
+

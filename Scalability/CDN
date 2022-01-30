@@ -1,0 +1,13 @@
+A content delivery network (CDN) refers to a geographically distributed group of servers which work together to provide fast delivery of Internet content.
+
+A properly configured CDN may also help protect websites helps 
+1 against some common malicious attacks, such as Distributed Denial of Service (DDOS) attacks.
+2 Improving website load times
+
+a CDN will place servers at the exchange points between different networks.
+
+Intelligent failover provides uninterrupted service even if one or more of the CDN servers go offline due to hardware malfunction; the failover can redistribute the traffic to the other operational servers.
+
+CDN can keep a site secured with fresh TLS/SSL certificates which will ensure a high standard of authentication, encryption, and integrity.
+
+cuts down on origin requests and reduces bandwidth costs.

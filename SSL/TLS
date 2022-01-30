@@ -1,0 +1,15 @@
+An SSL/TLS connection operates differently than a traditional TCP/IP connection. Once the initial stages of the TCP connection have been made, a separate exchange occurs to set up the secure connection.
+
+First the TCP/IP handshake is made in 3 steps:
+The client sends a SYN packet to the server in order to initiate the connection.
+The server than responds to that initial packet with a SYN/ACK packet, in order to acknowledge the communication.
+Finally, the client returns an ACK packet to acknowledge the receipt of the packet from the server. After completing this sequence of packet sending and receiving, the TCP connection is open and able to send and receive data.
+
+From a high level, there are three main components to a TLS handshake:
+The client and the server negotiate TLS versions and the type of cryptography cipher to be used in the communication.
+The client and server take steps to ensure mutually authentic communication.
+A key is exchanged to be used in future encrypted communications.
+
+For illustrative purposes it can be said the TCP handshake takes about 50ms, the TLS handshake may take about 110ms.
+
+A large and properly configured CDN has the potential benefit of scale as a protective factor against DDoS; by having enough data center locations and sizable bandwidth capabilities, a CDN is able to withstand and mitigate an amount of incoming attack traffic that would easily overwhelm the targeted origin server.

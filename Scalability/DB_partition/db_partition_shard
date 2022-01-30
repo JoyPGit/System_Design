@@ -29,3 +29,6 @@ Hashing : compute a hash key of the shard key's value
 How to choose a shard key?
 
 https://www.youtube.com/watch?v=ON3h1_bzg6g
+
+Facebook DB design
+https://blog.yugabyte.com/facebooks-user-db-is-it-sql-or-nosql/

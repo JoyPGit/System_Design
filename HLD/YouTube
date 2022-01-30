@@ -1,0 +1,76 @@
+YouTube design
+
+https://systeminterview.com/design-youtube.php
+
+FR 
+1 Able to upload videos
+2 Able to stream videos
+3 Like/Dislike, comment
+4 Search
+5 Diff resolutions, diff formats
+
+NFR
+1 Availability 
+2 Low latency
+3 Trending
+4 Eventual consistency
+5 Scalability 
+
+(CAP Theorem)
+
+Db design
+1 Scalable
+2 Read Write ratio
+3 consistency
+4 Traffic
+5 Sharding 
+master slave architecture 
+
+Major components (micro service architecture)
+1 Video upload service
+2 Recommendation engine
+3 Search engine
+4 CDN
+5 Streaming service
+
+
+user uploads video -> video upload service -> transcoding -> blob storage (S3)
+As soon as a new video is uploaded by a client, it’s routed by the load balancer to the upload service.
+
+uploading a video
+Split the video into chunks and then store, handling the transcoding will be better, streaming will be much better.
+When the video is stored and available to the viewer in chunks, the viewer will not need to download the entire video before playing it.
+
+Consider the splitting of videos as an independent microservice handled by the server, video splitter. It will divide the video into smaller chunks and put them in the processing queue. As they are de-queued, the chunks will be encoded.
+
+File can be stored in independent chunks with a linking id, which can be used to fetch the related
+videos
+
+Video encoding
+For each format and resolution, a video will be created.
+Consider the splitting of videos as an independent microservice handled by the server, video splitter. It will divide the video into smaller chunks and put them in the processing queue. As they are de-queued, the chunks will be encoded.
+maybe a queue can help, as
+
+create a utility which can fetch the list of metadata, which conatins the ids of the next chunks to fetch
+
+push/pull CDN
+invalidation
+ 
+
+adaptive bitrate 
+
+how to handle spike/ trending? -> cache layer
+how the cache will be updated?
+in this case the cache can store mostly static 
+errors?
+
+access to videos, 
+
+Aerospike, Kafka
+
+
+What is transcoding?
+Firstly, transcoding needs to be differentiated from two other easily confused digital video processes: compression and transmuxing/rewrapping.
+
+
+Transcoding is taking encoded (or “compressed”) video or other digital content, decompressing it, and altering and re-compressing it. For example, a high-resolution video shot on a digital camera (HD, 4K, etc.) can be transcoded into a lower-resolution format for editing; in other words, smaller files that are faster and easier to manipulate in editing software. 

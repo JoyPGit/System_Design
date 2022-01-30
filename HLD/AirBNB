@@ -1,0 +1,84 @@
+
+/**
+Hotel Booking System
+*/
+
+FR:
+1 admin can update hotels, onboard and remove them
+2 hotel owners can add new rooms, upload images, remove images
+3 users can search for hotels, check fares, check availability, book hotels, 
+4 users can login, see booking history, pswd, pic
+
+NFR
+CAS (consistent, available, scalable)
+
+1 consistent (race condition)
+2 analytics and suggestions
+3 available
+4 scalable
+5 booking should be as fast as possible
+
+
+hotel owner 
+    -> LB -> hotel service -> add images // hotel service can be scaled
+
+
+user -> search
+     -> book
+     -> login
+     -> check history
+
+
+admin -> add/ remove hotel users
+      -> moderate content  
+
+
+Services : 
+1 booking service 
+2 payment service
+3 user details service 
+4 upload service for hotel owners
+5 admin update service
+
+
+Service flow
+user -> search -> ElasticSearch -> updated via kafka when hotel owner updates
+                                -> if all rooms are booked, push remove event to kafka
+
+     -> select a hotel -> booking service -> lock the row (mark col as initiated)
+                                          -> initiate payment
+                                          -> store order id in redis with expiry
+                                          -> send details over kafka and start listening
+                                          -> success
+                                          -> failure
+                                          -> timeout   
+
+
+                                          ->in any case send notification to user and hotel 
+                                          -> update in mongo for anlytics
+
+     -> see transaction history -> use mongo, easier to scale
+
+
+schema
+user 
+id, name, paswd, 
+
+booking
+bookingid, roomid, hotelid, amount, start date, end date
+
+payment
+payment id, booking id, amount, date, details
+
+hotel
+name, location, id,  
+
+room
+roomid, hotel id, type, status
+
+
+imp how to handle race condition?
+multiple requests for the last room?
+use transactional, make entry in booking and update availability status in rooms table
+constraint : don't book if status is booked.
+

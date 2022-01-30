@@ -44,7 +44,7 @@ different server.
 
 https://www.toptal.com/big-data/consistent-hashing
 
-THIS IS NOT SOME CIRCULAR LINKED-LIST KIND OF IMPLEMENATATION.
+THIS IS NOT SOME CIRCULAR LINKED-LIST KIND OF IMPLEMENTATION.
 IT JUST MEANS THAT WE GO CLOCK-WISE FOR THE NEXT AVAILABLE SERVER
 
 Since we have the keys for both the objects and the servers on the 

@@ -1,0 +1,98 @@
+Steps:
+1 check Fucntional and NFRs
+2 SQL schema
+3 Draw microservices, their routes and their functionalities
+
+
+FR
+
+NFR
+LACS (consistency, availability, Scalability, latency)
+latency : order placed must be confirmed
+availability : service shoudl be up
+consistency : change smust be replicated across all nodes
+scalable : operate at scale
+Analytics,
+ Metadata
+
+DB 
+why SQL (ACID)
+1 Read vs write heavy 
+(for read heavy, master slave cluster, 
+for write heavy, async communication using notif)
+
+2 DB partitioning
+how to scale : add servers, more SQL clusters, 
+
+3 If large data or chunks of data, store as linkedlist, each entry having an 
+extra column pointing to next chunk
+4 for user data like transaction history, reviews, use mongo
+
+
+Points :
+1 Retrials? Dead letter queue
+2 Sync vs Async
+3 Optimistic approach (tick in WhatsApp) vs Leaky Bucket
+4 Column in table for state (initiated, success, failed, timeout)
+5 redis callback to expire keys
+
+
+Try to use 
+1 Cache, Redis, CDN
+2 Load Balancer
+3 API Gateway, Nginx (jwt tokens)
+4 Kafka
+5 ElasticSearch, 
+6 Cassandra, Mongo, Kibana for analytics
+7 pagination
+
+Also
+1 Notification system 
+notification system can't send to client (beacuse http is one-way and firewalls), 
+maintain connection (websocket map)
+or 
+have a notif db populated by kafka which the client will poll, 
+ 
+2 
+
+
+Ques
+1 how to handle race conditions?
+
+1 Use a highly transactional DB. Those by default use concurrency protocols to ensure atomicity, isolation and serializability of concurrent transactions.
+
+2 Use a FIFO structure like a Message Queue to process the incoming requests.
+
+3 make the api fetch the status. As soon as booking is done and payment is initiated, mark 
+the status as initiated and allow booking only when status is vacant. If payment fails, 
+change status back to vacant. This will ensure consistency.
+
+
+1 For update and delete, use Kafka. Push the element to be processed into kafka
+2 If more reads than writes, use master salve architecture, add more slaves
+3 If not so imp data like location, notification, use NoSQL
+4 consistent hashing 
+5 Always think of all users of the app, both client and customer, 
+(for ex Uber, cbdriver and rider, Airbnb, hotel and guest)
+6 Analytics is always a good to have feature, update everything to kafka which 
+can then push to data warehouse
+7 If there is a surge in searches and bookings, add more instances of the hotel booking service
+(horizontal scaling)
+
+
+ues
+1 how to handle race conditions?
+
+1 Use a highly transactional DB. Those by default use concurrency protocols to ensure atomicity, isolation and serializability of concurrent transactions.
+
+2 Use a FIFO structure like a Message Queue to process the incoming requests.
+
+3 make the api fetch the status. As soon as booking is done and payment is initiated, mark 
+the status as initiated and allow booking only when status is vacant. If payment fails, 
+change status back to vacant. This will ensure consistency.
+
+
+
+How Does A Newly Uploaded Video Reach The Viewer?
+once processing is complete, push to kafka, which then pushes it to all CDNs.
+Also the queue can be made to porcess during off-peak hours
