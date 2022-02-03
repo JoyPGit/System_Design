@@ -74,3 +74,144 @@ Firstly, transcoding needs to be differentiated from two other easily confused d
 
 
 Transcoding is taking encoded (or “compressed”) video or other digital content, decompressing it, and altering and re-compressing it. For example, a high-resolution video shot on a digital camera (HD, 4K, etc.) can be transcoded into a lower-resolution format for editing; in other words, smaller files that are faster and easier to manipulate in editing software. 
+
+
+_______________________________________________________________________________________
+
+Online Streaming Service (YouTube/Netflix)
+
+System should be able to onboard User with certain role
+User can search for any video content based on the category
+User should be able to watch the content with minimal latencies
+Admin of the system - should be able to upload media content + Details
+End user can add comments to the specific content (limit only 1 comment per user)
+End user can also hit like and dislike
+Notify user whenever new content is added to platform
+
+High level design to implement this service
+What all components can be used in this architecture
+List out all entities required for this design and relation if the have any 
+
+
+
+What you wnat to do :
+- Potential API's
+- HLD design 
+- LLD design (Entities and their mapping)
+
+
+FR
+search, like, comment, view
+creator upload, 
+admin add, remove, moderate content
+
+NFR
+see their uploads reflected
+analytics, no buffering
+
+Components : 
+Search service
+Upload service
+ElasticSearch
+Login Service
+
+BaseService -> (...)
+Basecontroller
+
+S3, DB, LB, Kafka
+
+
+user
+
+api call -> LB -> login, liek comment 
+								POST /video_id/like, commenyt/value
+                {}
+                
+								storeUserAction(){
+                	videoId, storing action and value pair
+                }
+                
+               -> cache, CDN
+               -> m.s (search) -> elasticSearch -> hadoop..
+               GET , /{search}
+               
+               getVideo(route Param){
+               	 //elasticSearch, cache 	
+               }
+               
+               -> streaming -> fetch chunks (adaptive bitrate
+               -> cache ->send -> optimization
+               -> asycn call put a join User_Video (paginated)
+               
+               
+client 
+api call -> LB -> upload service 
+	             
+               POST 
+                
+		 -> chunks -> process in parallel (id, video_id, chunk Number) -> kafka 
+               -> merge chunks
+               -> make entry in db 
+               -> store to S3
+               -> push to kafka
+               -> elsticSearch cluster
+            
+               
+admin -> LB -> add, remove user
+            -> add, remove content 
+          
+          POST, /user/onboard, 
+          {
+          	name, age, 
+          }
+          
+          userStatus(){
+          
+          }
+          
+    
+Schema :
+  
+SQL 
+Metadata
+video_id, uploaded_by, created_at, views, 
+
+
+Video
+video_id, res, chunk_serial, location, tags
+
+one to many mapping (table or json in sql)
+
+User_Video
+video_id, action, description 
+like -
+comment comment value(string)
+(like/comment), value
+
+store everything in SQL db
+
+paginated 
+
+
+User
+name, paswd, analytics
+
+               
+* client intelligent
+* cache
+* redis
+* linkedList
+
+
+chunks, metadata, LB, elasticsearch, kafka, s3, 
+content creators -> separate 
+admin
+db -> cassandra, mongo?
+
+mapping for likes?
+
+
+API gateway, dead letter queue, cron job
+Bidirectional mapping
+
+

@@ -53,8 +53,22 @@ Errors -> handle using a dead letter queue
 in case of a high profile political or sports event, a lot of people might end up sharing the same image and we might end up with multiple copies of the same image. To avoid this, before uploading an image to asset service, U3 will send a hash of the image and if the hash is already there in the asset service, the content will not be uploaded again, but the id against the same image/content will be sent to U2. I know, you must be thinking about multiple collisions? To deal with this, instead of sending just 1 hash, we will send across multiple hashes calculated via multiple algorithms. If all the hashes match, there is a fairly high chance that it is the same image and doesn’t have to be uploaded again.
 
 
+Online/Offline Status Or Last Seen
+
+Facebook messenger shows online/offline status of users. WhatsApp shows ‘Last Seen’. Though slightly different, both these features can be implemented using the same basics. As discussed earlier in the post, the information for the user’s status is saved in the memory cache rather than the database.
+
+So, to know if the user is online or offline or when the user was ‘Last Seen’, we need a heartbeat that the online users periodically send to the server. The server continues updating the heartbeat timestamp in a table stored in the memory cache. All the active users will have an entry in this table with a timestamp value against their user ID.
+
+Suppose the system is configured such that the online clients send a heartbeat every 5 seconds. So a client, let’s say, A, sends a heartbeat every 5 seconds, letting the server know that A is using the application. As the messaging server receives the heartbeat, it updates the time in the table.
+
+A will be online if he/she has an entry in the table and the timestamp is recent. If another user, say B, wants to know A’s status, the server can read A’s timestamp in the table to check if he/she is online or offline and display it to B. Similarly, in case of WhatsApp, if B wants to know when A was last available, the server will read the timestamp against A’s user ID in the table and display it to B.
+
+
+
 Group chats
 
 What we discussed until now was how a personal chat works on a system like WhatsApp. But what about group chats? Let’s say U1 wants to send a message to G1. Now, groups will behave a little differently from users. Web socket handlers won’t keep track of groups, it just tracks active users. So when U1 wants to send a message to G1, WSH1 gets in touch with Message service, that U1 wants to send a message to G1, and it gets stored in Cassandra as M3. Message service will now communicate with Kafka. M3 gets saved in Kafka with an instruction that it has to be sent to G1. Now Kafka will interact with something known as Group Message Handler. The group message handler listens to Kafka and sends out all group messages. There is something called Group Service which keeps track of all the members in all groups. Group message handler talks to Group service to find out all the users in G1 and follows the same process as a web socket handler and delivers the message to all users individually.
 
 
+for scalability, i.e i many users are there in gorup chat, we can use FAN-OUT similar to twitter.
+https://www.c-sharpcorner.com/article/fanout-design-with-rabbitmq-exchange/
